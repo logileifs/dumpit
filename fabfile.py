@@ -31,7 +31,6 @@ def deploy(host, user, prod_name):
 	run('workon ' + prod_name)
 	sudo('/home/' + user + '/.virtualenvs/' + prod_name + '/bin/pip install -r requirements.txt')
 	sudo('restart ' + prod_name)
-	#sudo('unzip -j dumpit.zip start.py -d .')
 
 
 def restart(host, user):
