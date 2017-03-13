@@ -14,16 +14,10 @@ unit-tests:
 	@ ~/.virtualenvs/dumpit/bin/nosetests tests/unit.py
 
 clean:
-	@ rm -rf dist/
+	@ fab clean
 
 build:
-	@ rm -rf dist/
-	@ mkdir dist/
-	@ pip freeze > requirements.txt
-	@ ( cd src/ && zip -r ../dist/$(productname).zip * )
-	@ chmod +x dist/$(productname).zip
-	@ echo '#!/usr/bin/env python' | cat - dist/dumpit.zip &> /dev/null
-	@ cp requirements.txt dist/
+	@ fab build:$(productname)
 
 deploy:
 	@ fab deploy:$(host),$(user),$(productname)

@@ -33,7 +33,25 @@ def deploy(host, user, prod_name):
 	sudo('restart ' + prod_name)
 	#sudo('unzip -j dumpit.zip start.py -d .')
 
+
 def restart(host, user):
 	env.host_string = host
 	env.user = user
 	sudo('shutdown -r now')
+
+
+def clean():
+	local('rm -rf dist/')
+
+
+def build(prod_name):
+	art_path = 'dist/' + prod_name
+	zip_path = art_path + '.zip'
+	clean()
+	local('mkdir dist/')
+	local('pip freeze > requirements.txt')
+	local('( cd src/ && zip -r ../' + zip_path + ' * )')
+	local("echo '#!/usr/bin/env python' | cat - " + zip_path + " > dist/dumpit")
+	local('chmod +x ' + art_path)
+	local('rm -f ' + zip_path)
+	local('cp requirements.txt dist/')
